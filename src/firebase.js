@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
-import { getAuth, signInWithPopup, signInWithRedirect, signOut, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBQGBHKYN8Gn7a7LTgb-QjPq1lGETv9Tqs",
@@ -19,19 +19,11 @@ export const analyticsPromise = typeof window !== "undefined" && typeof window.d
   : Promise.resolve(null);
 
 export const auth = getAuth(firebaseApp);
-export const googleAuthProvider = new GoogleAuthProvider();
-googleAuthProvider.setCustomParameters({ prompt: "select_account" });
 
-export const signInWithGoogle = async () => {
-  try {
-    return await signInWithPopup(auth, googleAuthProvider);
-  } catch (error) {
-    if (error.code === "auth/popup-blocked" || error.code === "auth/cancelled-popup-request") {
-      console.warn("Popup blocked; falling back to redirect sign-in.", error.code);
-      return await signInWithRedirect(auth, googleAuthProvider);
-    }
-    throw error;
-  }
-};
+export const signUpWithEmail = (email, password) =>
+  createUserWithEmailAndPassword(auth, email, password);
+
+export const signInWithEmail = (email, password) =>
+  signInWithEmailAndPassword(auth, email, password);
 
 export const signOutUser = () => signOut(auth);

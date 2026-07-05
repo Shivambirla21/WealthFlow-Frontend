@@ -8,8 +8,8 @@ import {
   AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip,
   PieChart, Pie, Cell
 } from "recharts";
-import { onAuthStateChanged, getRedirectResult } from "firebase/auth";
-import { auth, signInWithGoogle, signOutUser } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, signUpWithEmail, signInWithEmail, signOutUser } from "./firebase";
 import LoginGate from "./LoginGate";
 
 const STORE_KEY = "wealthflow:state";
@@ -232,22 +232,28 @@ export default function WealthFlow() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setFirebaseUser(user);
     });
-
-    getRedirectResult(auth).catch((error) => {
-      console.error("Firebase redirect sign-in error:", error?.code, error?.message);
-    });
-
     return () => unsubscribe();
   }, []);
 
-  const handleSignIn = async () => {
+  const handleEmailSignIn = async (email, password) => {
     try {
-      await signInWithGoogle();
+      await signInWithEmail(email, password);
       showToast("Signed in");
     } catch (error) {
       const message = error?.message || "Sign-in failed";
       showToast(message);
-      console.error("Firebase sign-in error:", error?.code, message);
+      console.error("Firebase email sign-in error:", error?.code, message);
+    }
+  };
+
+  const handleEmailSignUp = async (email, password) => {
+    try {
+      await signUpWithEmail(email, password);
+      showToast("Account created and signed in");
+    } catch (error) {
+      const message = error?.message || "Sign-up failed";
+      showToast(message);
+      console.error("Firebase email sign-up error:", error?.code, message);
     }
   };
 
@@ -562,7 +568,12 @@ export default function WealthFlow() {
   }
 
   if (!firebaseUser) {
-    return <LoginGate onSignIn={handleSignIn} />;
+    return (
+      <LoginGate
+        onLogin={handleEmailSignIn}
+        onSignUp={handleEmailSignUp}
+      />
+    );
   }
 
   return (
