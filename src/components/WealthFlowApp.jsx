@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { signUpWithEmail, signInWithEmail, signInWithProvider, signOutUser, fetchCurrentUser, getStoredToken, setAuthToken } from "../firebase.js";
 import LoginGate from "../LoginGate.jsx";
+import Navbar from "./Navbar.jsx";
 import {
   SCHEMA_VERSION,
   FREQS,
@@ -480,6 +481,7 @@ export default function WealthFlowApp() {
 
   return (
     <div data-theme={theme} className="wf-root">
+      <Navbar />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&display=swap');
         .wf-root {

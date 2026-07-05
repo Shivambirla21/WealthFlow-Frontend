@@ -2,6 +2,7 @@ import {
   Home, UtensilsCrossed, Car, Zap, Repeat, Landmark, Film, HeartPulse, Tag,
   Briefcase, Laptop, Store, TrendingUp, Building2, Wallet,
 } from "lucide-react";
+import { calcLoanEmiPerSecond } from './finance.js';
 
 export const SCHEMA_VERSION = 2;
 
