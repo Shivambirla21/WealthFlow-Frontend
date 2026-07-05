@@ -8,7 +8,7 @@ import {
   AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip,
   PieChart, Pie, Cell
 } from "recharts";
-import { signUpWithEmail, signInWithEmail, signOutUser, fetchCurrentUser, getStoredToken } from "../firebase.js";
+import { signUpWithEmail, signInWithEmail, signInWithProvider, signOutUser, fetchCurrentUser, getStoredToken, setAuthToken } from "../firebase.js";
 import LoginGate from "../LoginGate.jsx";
 import {
   SCHEMA_VERSION,
@@ -104,6 +104,28 @@ export default function WealthFlowApp() {
     return () => { cancelled = true; };
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const authToken = params.get('auth_token');
+    if (!authToken) return;
+
+    setAuthToken(authToken);
+    params.delete('auth_token');
+    const cleanUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
+    window.history.replaceState({}, '', cleanUrl);
+
+    fetchCurrentUser()
+      .then((user) => {
+        if (user) {
+          setCurrentUser(user);
+          showToast('Signed in successfully');
+        }
+      })
+      .catch((error) => {
+        console.warn('Social auth restore failed:', error.message);
+      });
+  }, []);
+
   const handleEmailSignIn = async (email, password) => {
     try {
       const user = await signInWithEmail(email, password);
@@ -137,6 +159,10 @@ export default function WealthFlowApp() {
       showToast("Sign-out failed");
       console.error(error);
     }
+  };
+
+  const handleSocialLogin = (provider) => {
+    signInWithProvider(provider);
   };
 
   useEffect(() => {
@@ -447,6 +473,7 @@ export default function WealthFlowApp() {
       <LoginGate
         onLogin={handleEmailSignIn}
         onSignUp={handleEmailSignUp}
+        onSocialLogin={handleSocialLogin}
       />
     );
   }

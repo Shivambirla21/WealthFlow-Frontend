@@ -6,7 +6,7 @@ function getAuthToken() {
   return window.localStorage.getItem(AUTH_TOKEN_KEY);
 }
 
-function setAuthToken(token) {
+export function setAuthToken(token) {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(AUTH_TOKEN_KEY, token);
 }
@@ -43,6 +43,11 @@ export async function signInWithEmail(email, password) {
   const data = await request('/api/auth/login', { email, password });
   setAuthToken(data.data.token);
   return data.data.user;
+}
+
+export function signInWithProvider(provider) {
+  const base = API_BASE || '';
+  window.location.href = `${base}/api/auth/oauth/${provider}`;
 }
 
 export async function fetchCurrentUser() {
