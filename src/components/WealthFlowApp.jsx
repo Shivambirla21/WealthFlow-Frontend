@@ -27,6 +27,7 @@ import {
 } from "../utils/constants.js";
 import { readStoredState, writeStoredState, migrateState } from "../utils/storage.js";
 import { calcLoanEmiPerSecond, fmtSeconds } from "../utils/finance.js";
+import { getConnectionErrorMessage } from "../utils/networkError.js";
 
 export default function WealthFlowApp() {
   const [loaded, setLoaded] = useState(false);
@@ -97,7 +98,9 @@ export default function WealthFlowApp() {
         const user = await fetchCurrentUser();
         if (!cancelled) setCurrentUser(user);
       } catch (error) {
-        console.warn('Unable to restore current user:', error.message);
+        const message = getConnectionErrorMessage(error);
+        if (!cancelled) showToast(message);
+        console.warn('Unable to restore current user:', message);
       }
     }
 
@@ -123,7 +126,9 @@ export default function WealthFlowApp() {
         }
       })
       .catch((error) => {
-        console.warn('Social auth restore failed:', error.message);
+        const message = getConnectionErrorMessage(error);
+        showToast(message);
+        console.warn('Social auth restore failed:', message);
       });
   }, []);
 
@@ -133,7 +138,7 @@ export default function WealthFlowApp() {
       setCurrentUser(user);
       showToast("Signed in");
     } catch (error) {
-      const message = error?.message || "Sign-in failed";
+      const message = getConnectionErrorMessage(error) || "Sign-in failed";
       showToast(message);
       console.error("Backend email sign-in error:", message);
     }
@@ -145,7 +150,7 @@ export default function WealthFlowApp() {
       setCurrentUser(user);
       showToast("Account created and signed in");
     } catch (error) {
-      const message = error?.message || "Sign-up failed";
+      const message = getConnectionErrorMessage(error) || "Sign-up failed";
       showToast(message);
       console.error("Backend email sign-up error:", message);
     }
@@ -157,7 +162,7 @@ export default function WealthFlowApp() {
       setCurrentUser(null);
       showToast("Signed out");
     } catch (error) {
-      showToast("Sign-out failed");
+      showToast(getConnectionErrorMessage(error) || "Sign-out failed");
       console.error(error);
     }
   };
