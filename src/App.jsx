@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { onAuthStateChanged, getRedirectResult } from "firebase/auth";
 import { auth, signInWithGoogle, signOutUser } from "./firebase";
+import LoginGate from "./LoginGate";
 
 const STORE_KEY = "wealthflow:state";
 // PHASE 1: schema version gate — bump this whenever the persisted shape changes,
@@ -259,6 +260,14 @@ export default function WealthFlow() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (!firebaseUser) return;
+    setProfile((prev) => ({
+      ...prev,
+      name: firebaseUser.displayName || prev.name,
+    }));
+  }, [firebaseUser]);
 
   // ── load + fast-forward ──
   useEffect(() => {
@@ -550,6 +559,10 @@ export default function WealthFlow() {
         </div>
       </div>
     );
+  }
+
+  if (!firebaseUser) {
+    return <LoginGate onSignIn={handleSignIn} />;
   }
 
   return (
