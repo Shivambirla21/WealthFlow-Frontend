@@ -398,49 +398,97 @@ export default function WealthFlow() {
   }, [expenses, periodSeconds]);
 
   // ── actions ──
-  function addIncome() {
+  async function syncEntry(payload) {
+    const response = await fetch("/api/transactions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.message || "Unable to save entry");
+    }
+
+    return data?.data;
+  }
+
+  async function addIncome() {
     const amt = parseFloat(incForm.amt);
     if (!incForm.name.trim()) return showToast("Name the income source");
     if (isNaN(amt) || amt <= 0) return showToast("Enter a valid amount");
     const ps = amt / incForm.freq;
-    setIncomes((p) => [...p, {
+    const entry = {
       id: Date.now(), name: incForm.name.trim(), type: incForm.type, amt, freq: incForm.freq, ps,
-      // PHASE 1: new entries carry metadata from day one.
       createdAt: Date.now(), tags: [], accountId: "default",
-    }]);
+    };
+    setIncomes((p) => [...p, entry]);
     setIncForm({ name: "", type: "salary", amt: "", freq: 2592000 });
     setShowIncForm(false);
     flash();
-    showToast(`Credited: ${incForm.name.trim()} added`);
+
+    try {
+      await syncEntry({
+        kind: "income",
+        name: entry.name,
+        amount: entry.amt,
+        category: entry.type,
+        type: entry.type,
+        freq: entry.freq,
+        ps: entry.ps,
+        accountId: entry.accountId,
+      });
+      showToast(`Credited: ${entry.name} added`);
+    } catch (error) {
+      showToast(`Added locally; DB sync failed: ${error.message}`);
+    }
   }
   function delIncome(id, name) {
     setIncomes((p) => p.filter((i) => i.id !== id));
     showToast(`Removed ${name}`);
   }
-  function addExpense() {
+  async function addExpense() {
     if (!expForm.name.trim()) return showToast("Name the expense");
     let ps;
+    let entry;
     if (expForm.category === "loan") {
       const pr = parseFloat(expForm.principal), rate = parseFloat(expForm.rate), tenure = parseInt(expForm.tenure, 10);
       if (isNaN(pr) || pr <= 0 || isNaN(rate) || rate < 0 || isNaN(tenure) || tenure <= 0) return showToast("Enter valid loan details");
       ps = calcLoanEmiPerSecond(pr, rate, tenure);
-      setExpenses((p) => [...p, {
+      entry = {
         id: Date.now(), name: expForm.name.trim(), category: "loan", principal: pr, rate, tenure, ps,
         createdAt: Date.now(), tags: [], accountId: "default",
-      }]);
+      };
+      setExpenses((p) => [...p, entry]);
     } else {
       const amt = parseFloat(expForm.amt);
       if (isNaN(amt) || amt <= 0) return showToast("Enter a valid amount");
       ps = amt / expForm.freq;
-      setExpenses((p) => [...p, {
+      entry = {
         id: Date.now(), name: expForm.name.trim(), category: expForm.category, amt, freq: expForm.freq, ps,
         createdAt: Date.now(), tags: [], accountId: "default",
-      }]);
+      };
+      setExpenses((p) => [...p, entry]);
     }
     setExpForm({ name: "", category: "housing", amt: "", freq: 2592000, principal: "", rate: "", tenure: "240" });
     setShowExpForm(false);
     flash();
-    showToast(`Debited: ${expForm.name.trim()} added`);
+
+    try {
+      await syncEntry({
+        kind: "expense",
+        name: entry.name,
+        amount: entry.amt || entry.principal || 0,
+        category: entry.category || "loan",
+        type: entry.category || "loan",
+        freq: entry.freq || 2592000,
+        ps: entry.ps,
+        accountId: entry.accountId,
+      });
+      showToast(`Debited: ${entry.name} added`);
+    } catch (error) {
+      showToast(`Added locally; DB sync failed: ${error.message}`);
+    }
   }
   function delExpense(id, name) {
     setExpenses((p) => p.filter((e) => e.id !== id));
