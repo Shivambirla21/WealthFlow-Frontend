@@ -8,8 +8,7 @@ import {
   AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip,
   PieChart, Pie, Cell
 } from "recharts";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, signUpWithEmail, signInWithEmail, signOutUser } from "./firebase";
+import { signUpWithEmail, signInWithEmail, signOutUser, fetchCurrentUser, getStoredToken } from "./firebase";
 import LoginGate from "./LoginGate";
 
 const STORE_KEY = "wealthflow:state";
@@ -181,7 +180,7 @@ export default function WealthFlow() {
   const [customFrom, setCustomFrom] = useState("");
   const [customTo, setCustomTo] = useState("");
   const [showProfile, setShowProfile] = useState(false);
-  const [firebaseUser, setFirebaseUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [showIncForm, setShowIncForm] = useState(false);
   const [showExpForm, setShowExpForm] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
@@ -229,37 +228,49 @@ export default function WealthFlow() {
   useEffect(() => { pausedRef.current = paused; }, [paused]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setFirebaseUser(user);
-    });
-    return () => unsubscribe();
+    let cancelled = false;
+
+    async function loadUser() {
+      try {
+        const user = await fetchCurrentUser();
+        if (!cancelled) setCurrentUser(user);
+      } catch (error) {
+        console.warn('Unable to restore current user:', error.message);
+      }
+    }
+
+    loadUser();
+    return () => { cancelled = true; };
   }, []);
 
   const handleEmailSignIn = async (email, password) => {
     try {
-      await signInWithEmail(email, password);
+      const user = await signInWithEmail(email, password);
+      setCurrentUser(user);
       showToast("Signed in");
     } catch (error) {
       const message = error?.message || "Sign-in failed";
       showToast(message);
-      console.error("Firebase email sign-in error:", error?.code, message);
+      console.error("Backend email sign-in error:", message);
     }
   };
 
   const handleEmailSignUp = async (email, password) => {
     try {
-      await signUpWithEmail(email, password);
+      const user = await signUpWithEmail(email, password);
+      setCurrentUser(user);
       showToast("Account created and signed in");
     } catch (error) {
       const message = error?.message || "Sign-up failed";
       showToast(message);
-      console.error("Firebase email sign-up error:", error?.code, message);
+      console.error("Backend email sign-up error:", message);
     }
   };
 
   const handleSignOut = async () => {
     try {
-      await signOutUser();
+      signOutUser();
+      setCurrentUser(null);
       showToast("Signed out");
     } catch (error) {
       showToast("Sign-out failed");
@@ -268,12 +279,12 @@ export default function WealthFlow() {
   };
 
   useEffect(() => {
-    if (!firebaseUser) return;
+    if (!currentUser) return;
     setProfile((prev) => ({
       ...prev,
-      name: firebaseUser.displayName || prev.name,
+      name: currentUser.name || currentUser.email || prev.name,
     }));
-  }, [firebaseUser]);
+  }, [currentUser]);
 
   // ── load + fast-forward ──
   useEffect(() => {
@@ -414,9 +425,13 @@ export default function WealthFlow() {
 
   // ── actions ──
   async function syncEntry(payload) {
+    const token = getStoredToken();
     const response = await fetch("/api/transactions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
       body: JSON.stringify(payload),
     });
 
@@ -567,7 +582,7 @@ export default function WealthFlow() {
     );
   }
 
-  if (!firebaseUser) {
+  if (!currentUser) {
     return (
       <LoginGate
         onLogin={handleEmailSignIn}
@@ -757,9 +772,9 @@ export default function WealthFlow() {
           <div>
             <div className="wf-cover-title wf-serif">WealthFlow Passbook</div>
             <div className="wf-cover-sub">Ledger opened {new Date(sessionStart).getHours().toString().padStart(2,"0")}:{new Date(sessionStart).getMinutes().toString().padStart(2,"0")}</div>
-            {firebaseUser && (
+            {currentUser && (
               <div className="wf-cover-sub" style={{ marginTop: 4 }}>
-                Signed in as {firebaseUser.displayName || firebaseUser.email}
+                Signed in as {currentUser.name || currentUser.email}
               </div>
             )}
           </div>
@@ -771,15 +786,11 @@ export default function WealthFlow() {
           <button className="wf-icon-btn" onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))} aria-label="Toggle theme">
             {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
           </button>
-          {firebaseUser ? (
+          {currentUser ? (
             <button className="wf-btn ghost" onClick={handleSignOut} type="button">
-              {firebaseUser.displayName?.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2) || firebaseUser.email?.[0]?.toUpperCase() || "U"}
+              {currentUser.name?.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2) || currentUser.email?.[0]?.toUpperCase() || "U"}
             </button>
-          ) : (
-            <button className="wf-btn ghost" onClick={handleSignIn} type="button">
-              Sign in
-            </button>
-          )}
+          ) : null}
         </div>
       </div>
 

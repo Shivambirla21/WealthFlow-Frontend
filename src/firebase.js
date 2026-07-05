@@ -1,29 +1,61 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics, isSupported } from "firebase/analytics";
-import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+const AUTH_TOKEN_KEY = 'wealthflow:auth_token';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBQGBHKYN8Gn7a7LTgb-QjPq1lGETv9Tqs",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "wealthflow-22aac.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "wealthflow-22aac",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "wealthflow-22aac.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "1052230879048",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:1052230879048:web:dce45962eca20a34a7157d",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-29RZPDZX3S",
+function getAuthToken() {
+  if (typeof window === 'undefined') return null;
+  return window.localStorage.getItem(AUTH_TOKEN_KEY);
+}
+
+function setAuthToken(token) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(AUTH_TOKEN_KEY, token);
+}
+
+function clearAuthToken() {
+  if (typeof window === 'undefined') return;
+  window.localStorage.removeItem(AUTH_TOKEN_KEY);
+}
+
+async function request(path, body, method = 'POST', token) {
+  const response = await fetch(`${API_BASE}${path}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data?.message || 'Request failed');
+  }
+  return data;
+}
+
+export async function signUpWithEmail(email, password, name) {
+  const data = await request('/api/auth/register', { email, password, name });
+  setAuthToken(data.data.token);
+  return data.data.user;
+}
+
+export async function signInWithEmail(email, password) {
+  const data = await request('/api/auth/login', { email, password });
+  setAuthToken(data.data.token);
+  return data.data.user;
+}
+
+export async function fetchCurrentUser() {
+  const token = getAuthToken();
+  if (!token) return null;
+  const data = await request('/api/users/me', null, 'GET', token);
+  return data.data;
+}
+
+export function getStoredToken() {
+  return getAuthToken();
+}
+
+export const signOutUser = () => {
+  clearAuthToken();
 };
-
-export const firebaseApp = initializeApp(firebaseConfig);
-
-export const analyticsPromise = typeof window !== "undefined" && typeof window.document !== "undefined"
-  ? isSupported().then((supported) => supported ? getAnalytics(firebaseApp) : null)
-  : Promise.resolve(null);
-
-export const auth = getAuth(firebaseApp);
-
-export const signUpWithEmail = (email, password) =>
-  createUserWithEmailAndPassword(auth, email, password);
-
-export const signInWithEmail = (email, password) =>
-  signInWithEmailAndPassword(auth, email, password);
-
-export const signOutUser = () => signOut(auth);
