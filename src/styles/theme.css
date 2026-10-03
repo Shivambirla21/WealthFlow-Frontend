@@ -1,0 +1,80 @@
+:root,
+html[data-theme="dark"] {
+  --color-bg: #0F1117;
+  --color-surface: #171A23;
+  --color-surface-hover: #1E2230;
+  --color-text: #F3F4F6;
+  --color-text-muted: #9CA3AF;
+  --color-text-faint: #6B7280;
+  --color-border: #262A36;
+  --color-border-strong: #373B4A;
+  --color-header: rgba(15, 17, 23, 0.88);
+
+  --color-primary: #635BFF;
+  --color-primary-hover: #5048E0;
+  --color-primary-soft: #24213F;
+  --color-primary-foreground: #FFFFFF;
+  --color-primary-muted: #8B85FF;
+  --color-primary-bright: #A5A0FF;
+  --color-primary-deep: #2A2560;
+
+  --color-secondary: #14B8A6;
+  --color-secondary-hover: #0F766E;
+  --color-secondary-soft: #132E2B;
+  --color-secondary-foreground: #FFFFFF;
+
+  --color-success: #10B981;
+  --color-danger: #F26B5B;
+  --color-warning: #F59E0B;
+  --color-chart-info: #60A5FA;
+  --color-chart-violet: #A78BFA;
+
+  --shadow-primary: 0 30px 80px rgba(99, 91, 255, 0.14);
+  --radius-control: 10px;
+  --radius-card: 16px;
+
+  --bg: var(--color-bg);
+  --surface: var(--color-surface);
+  --surface-hover: var(--color-surface-hover);
+  --text: var(--color-text);
+  --text-muted: var(--color-text-muted);
+  --border: var(--color-border);
+  --border-strong: var(--color-border-strong);
+  --primary: var(--color-primary);
+  --primary-soft: var(--color-primary-soft);
+  --primary-dark: var(--color-primary-hover);
+  --secondary: var(--color-secondary);
+  --success: var(--color-success);
+  --danger: var(--color-danger);
+  --warning: var(--color-warning);
+
+  --s: var(--color-surface);
+  --t: var(--color-text);
+  --t2: var(--color-text-muted);
+  --b: var(--color-border);
+  --p: var(--color-primary);
+  --pl: var(--color-primary-soft);
+  --g: var(--color-success);
+  --r: var(--color-danger);
+  --teal: var(--color-secondary);
+  --a: var(--color-warning);
+
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  --color-bg: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F9FAFB;
+  --color-text: #111827;
+  --color-text-muted: #6B7280;
+  --color-text-faint: #9CA3AF;
+  --color-border: #E5E7EB;
+  --color-border-strong: #D1D5DB;
+  --color-header: rgba(247, 248, 250, 0.92);
+  --color-primary-soft: #EEEDFF;
+  --color-primary-deep: #E4E1FF;
+  --color-secondary-soft: #CCFBF1;
+  --shadow-primary: 0 24px 60px rgba(99, 91, 255, 0.12);
+  color-scheme: light;
+}

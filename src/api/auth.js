@@ -26,9 +26,18 @@ async function request(path, body, method = 'POST', token) {
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  const data = await response.json();
+  const text = await response.text();
+  let data = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      throw new Error('Unable to reach the server. Please check your connection or try again later.');
+    }
+  }
+
   if (!response.ok) {
-    throw new Error(data?.message || 'Request failed');
+    throw new Error(data?.message || 'Unable to reach the server. Please check your connection or try again later.');
   }
   return data;
 }
@@ -46,8 +55,11 @@ export async function signInWithEmail(email, password) {
 }
 
 export function signInWithProvider(provider) {
-  const base = API_BASE || '';
-  window.location.href = `${base}/api/auth/oauth/${provider}`;
+  // Google client id and secret stay in server/.env. Vite injects only BACKEND_ORIGIN.
+  const backendUrl = (import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000').replace(/\/$/, '');
+  const url = new URL(`${backendUrl}/api/auth/oauth/${provider}`);
+  url.searchParams.set('return_to', window.location.origin);
+  window.location.href = url.toString();
 }
 
 export async function fetchCurrentUser() {
