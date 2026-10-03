@@ -25,3 +25,29 @@ button,
 input {
   font: inherit;
 }
+
+.wf-logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.wf-logo {
+  display: block;
+  width: auto;
+  height: var(--wf-logo-height, 36px);
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.wf-logo-for-light {
+  display: none;
+}
+
+html[data-theme="light"] .wf-logo-for-dark {
+  display: none;
+}
+
+html[data-theme="light"] .wf-logo-for-light {
+  display: block;
+}

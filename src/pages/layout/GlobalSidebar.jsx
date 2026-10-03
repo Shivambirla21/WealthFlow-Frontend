@@ -1,6 +1,7 @@
 import { flushSync } from 'react-dom';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
+import Logo from '../../components/Logo.jsx';
 
 const navItems = [
   { to: '/dashboard', label: 'Overview' },
@@ -30,8 +31,7 @@ export default function GlobalSidebar() {
   return (
     <aside className="global-sidebar">
       <div className="sidebar-logo">
-        <div className="logo-icon"></div>
-        <span className="logo-text">WealthFlow</span>
+        <Logo height={40} />
       </div>
 
       <nav className="sidebar-nav">
@@ -75,24 +75,8 @@ export default function GlobalSidebar() {
         }
 
         .sidebar-logo {
-          font-weight: 700;
-          font-size: 18px;
-          display: flex;
-          gap: 10px;
-          align-items: center;
-          padding: 0 10px 24px;
-        }
-
-        .logo-icon {
-          width: 28px;
-          height: 28px;
-          border-radius: 9px;
-          background: var(--primary);
-          display: block;
-        }
-
-        .logo-text {
-          color: var(--text);
+          font-size: 16px;
+          padding: 0 4px 24px;
         }
 
         .sidebar-nav {

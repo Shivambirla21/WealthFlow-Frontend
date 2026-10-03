@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
+import Logo from '../components/Logo.jsx';
 
 export default function LoginPage({ mode = 'login' }) {
   const isSignUp = mode === 'signup';
@@ -51,7 +52,7 @@ export default function LoginPage({ mode = 'login' }) {
       <header>
         <div className="w">
           <button type="button" className="logo" onClick={() => navigate('/')}>
-            <i></i>WealthFlow
+            <Logo height={36} />
           </button>
           <button type="button" className="btn" onClick={() => navigate('/')}>Back to home</button>
         </div>
@@ -159,23 +160,12 @@ export default function LoginPage({ mode = 'login' }) {
         }
 
         .auth-page .logo {
-          font-weight: 700;
           font-size: 19px;
-          display: flex;
-          gap: 10px;
-          align-items: center;
           background: none;
           border: 0;
           color: inherit;
           cursor: pointer;
           padding: 0;
-        }
-
-        .auth-page .logo i {
-          width: 28px;
-          height: 28px;
-          border-radius: 9px;
-          background: var(--color-primary);
         }
 
         .auth-page .btn {

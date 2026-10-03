@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
+import Logo from '../components/Logo.jsx';
 
 export default function LandingPage() {
   const { signInWithGoogle } = useAuth();
@@ -8,7 +9,7 @@ export default function LandingPage() {
       {/* Header */}
       <header>
         <div className="w">
-          <div className="logo"><i></i>WealthFlow</div>
+          <div className="logo"><Logo height={36} /></div>
           <nav className="links">
             <a href="#features">Features</a>
             <a href="#how">How it works</a>
@@ -243,7 +244,7 @@ export default function LandingPage() {
         <div className="w">
           <div className="fg">
             <div>
-              <div className="logo" style={{ color: 'var(--t)' }}><i></i>WealthFlow</div>
+              <div className="logo"><Logo height={36} /></div>
               <p style={{ marginTop: '14px', maxWidth: '280px' }}>Your money. One clear picture. Track spending, understand your wealth, and build a better financial future.</p>
               <div className="nl"><div>Enter your email</div><a className="btn p">Subscribe</a></div>
               <div className="soc"><i>X</i><i>in</i><i>IG</i><i>YT</i></div>
@@ -309,18 +310,7 @@ export default function LandingPage() {
         }
 
         .logo {
-          font-weight: 700;
           font-size: 19px;
-          display: flex;
-          gap: 10px;
-          align-items: center;
-        }
-
-        .logo i {
-          width: 28px;
-          height: 28px;
-          border-radius: 9px;
-          background: var(--p);
         }
 
         .links {
