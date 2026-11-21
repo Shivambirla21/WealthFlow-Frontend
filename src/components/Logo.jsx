@@ -1,4 +1,4 @@
-export default function Logo({ variant = 'lockup', height = 36 }) {
+export default function Logo({ variant = 'lockup', height = 50 }) {
   const style = { '--wf-logo-height': `${height}px` };
 
   if (variant === 'mark') {

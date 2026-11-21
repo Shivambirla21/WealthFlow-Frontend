@@ -4,8 +4,15 @@ import LandingPage from '../pages/LandingPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import DashboardPage from '../pages/DashboardPage.jsx';
 import TransactionsPage from '../pages/TransactionsPage.jsx';
+import BudgetsPage from '../pages/BudgetsPage.jsx';
+import CashFlowPage from '../pages/CashFlowPage.jsx';
+import GoalsPage from '../pages/GoalsPage.jsx';
+import NetWorthPage from '../pages/NetWorthPage.jsx';
+import InvestmentsPage from '../pages/InvestmentsPage.jsx';
+import AssetsPage from '../pages/AssetsPage.jsx';
+import LiabilitiesPage from '../pages/LiabilitiesPage.jsx';
 import SectionPage from '../pages/SectionPage.jsx';
-import GlobalSidebar from '../pages/layout/GlobalSidebar.jsx';
+import GlobalSidebar from '../components/layout/GlobalSidebar.jsx';
 
 function GuestOnly() {
   const { ready, currentUser } = useAuth();
@@ -58,13 +65,13 @@ export default function App() {
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/transactions" element={<TransactionsPage />} />
-              <Route path="/budgets" element={<SectionPage title="Budgets" />} />
-              <Route path="/cash-flow" element={<SectionPage title="Cash Flow" />} />
-              <Route path="/goals" element={<SectionPage title="Goals" />} />
-              <Route path="/net-worth" element={<SectionPage title="Net Worth" />} />
-              <Route path="/investments" element={<SectionPage title="Investments" />} />
-              <Route path="/assets" element={<SectionPage title="Assets" />} />
-              <Route path="/liabilities" element={<SectionPage title="Liabilities" />} />
+              <Route path="/budgets" element={<BudgetsPage />} />
+              <Route path="/cash-flow" element={<CashFlowPage />} />
+              <Route path="/goals" element={<GoalsPage />} />
+              <Route path="/net-worth" element={<NetWorthPage />} />
+              <Route path="/investments" element={<InvestmentsPage />} />
+              <Route path="/assets" element={<AssetsPage />} />
+              <Route path="/liabilities" element={<LiabilitiesPage />} />
               <Route path="/recurring" element={<SectionPage title="Recurring" />} />
               <Route path="/reports" element={<SectionPage title="Reports" />} />
               <Route path="/insights" element={<SectionPage title="Insights" />} />
