@@ -11,6 +11,7 @@ import NetWorthPage from '../pages/NetWorthPage.jsx';
 import InvestmentsPage from '../pages/InvestmentsPage.jsx';
 import AssetsPage from '../pages/AssetsPage.jsx';
 import LiabilitiesPage from '../pages/LiabilitiesPage.jsx';
+import RecurringPage from '../pages/RecurringPage.jsx';
 import SectionPage from '../pages/SectionPage.jsx';
 import GlobalSidebar from '../components/layout/GlobalSidebar.jsx';
 
@@ -72,7 +73,7 @@ export default function App() {
               <Route path="/investments" element={<InvestmentsPage />} />
               <Route path="/assets" element={<AssetsPage />} />
               <Route path="/liabilities" element={<LiabilitiesPage />} />
-              <Route path="/recurring" element={<SectionPage title="Recurring" />} />
+              <Route path="/recurring" element={<RecurringPage />} />
               <Route path="/reports" element={<SectionPage title="Reports" />} />
               <Route path="/insights" element={<SectionPage title="Insights" />} />
               <Route path="/help" element={<SectionPage title="Help" />} />

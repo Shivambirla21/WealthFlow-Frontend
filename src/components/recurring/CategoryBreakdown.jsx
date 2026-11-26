@@ -1,0 +1,8 @@
+const money=value=>'₹'+Math.round(value).toLocaleString('en-IN');
+export default function CategoryBreakdown({ items, categories }) {
+  const totals=categories.map((category,index)=>items.filter(x=>x.categoryIndex===index).reduce((sum,x)=>sum+(x.billing==='Yearly'?x.amount/12:x.amount),0));
+  const total=totals.reduce((sum,x)=>sum+x,0);
+  return <section className="recurring-panel category-panel"><h3>By category <span>Monthly equivalent</span></h3><div className="category-bar">{totals.map((value,i)=><i key={categories[i].name} style={{width:(total?value/total*100:0)+'%',background:categories[i].color}} title={categories[i].name+' '+money(value)}/>)}</div><div className="category-legend">{categories.map((category,i)=><span key={category.name}><i style={{background:category.color}}/>{category.name}<b>{money(totals[i])}</b></span>)}</div><div className="recurring-insight"><b>{items.length} recurring payments tracked.</b><small>Monthly equivalents are calculated from each payment's billing frequency.</small></div>
+    <style>{`.category-panel h3{margin-bottom:14px}.category-bar{height:12px;border-radius:12px;overflow:hidden;display:flex;gap:3px;margin:14px 0}.category-bar i{display:block;height:100%}.category-legend{display:flex;gap:12px 16px;flex-wrap:wrap;font-size:12px;color:var(--color-text-muted)}.category-legend span{display:flex;align-items:center;gap:5px}.category-legend i{width:9px;height:9px;border-radius:3px}.category-legend b{color:var(--color-text);margin-left:2px}.recurring-insight{padding:14px;background:var(--color-bg);border-radius:12px;margin-top:18px}.recurring-insight b,.recurring-insight small{display:block}.recurring-insight small{color:var(--color-text-muted);font-size:12px;margin-top:3px}`}</style>
+  </section>;
+}
