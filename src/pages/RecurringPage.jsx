@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 import RecurringHeader from '../components/recurring/RecurringHeader.jsx';
 import RecurringSummary from '../components/recurring/RecurringSummary.jsx';
@@ -66,11 +66,14 @@ export default function RecurringPage() {
   const [activeCategory, setActiveCategory] = useState(-1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toast, setToast] = useState('');
+  const toastTimer = useRef(null);
+
+  useEffect(() => () => window.clearTimeout(toastTimer.current), []);
 
   const showToast = (message) => {
     setToast(message);
-    window.clearTimeout(showToast.timer);
-    showToast.timer = window.setTimeout(() => setToast(''), 2500);
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(''), 2500);
   };
 
   const markPaid = (id) => {
@@ -110,19 +113,17 @@ export default function RecurringPage() {
         onCategoryChange={setActiveCategory}
         onMarkPaid={markPaid}
       />
-      <RecurringModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={addRecurring}
-        categories={categories}
-      />
+      <RecurringModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSave={addRecurring} categories={categories} />
       {toast && <div className="recurring-toast" role="status">✓ {toast}</div>}
       <style>{`
         .recurring-page{flex:1;min-width:0;padding:28px 40px 56px;display:flex;flex-direction:column;gap:20px}
+        .recurring-panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;color:var(--text)}
+        .recurring-panel h3{display:flex;justify-content:space-between;align-items:center;font-size:16px;margin:0;color:var(--text)}
+        .recurring-panel h3 span{font-size:12px;font-weight:400;color:var(--text-muted)}
         .recurring-overview{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;align-items:start}
         .recurring-toast{position:fixed;right:28px;bottom:28px;z-index:1100;background:var(--surface);border:1px solid var(--success);color:var(--text);padding:12px 18px;border-radius:12px;box-shadow:0 12px 30px #0005}
         @media(max-width:1200px){.recurring-page{padding:22px 24px 44px}.recurring-overview{grid-template-columns:1fr}}
-        @media(max-width:768px){.recurring-page{padding:16px;gap:16px}}
+        @media(max-width:768px){.recurring-page{padding:16px;gap:16px}.recurring-panel{padding:16px}}
       `}</style>
     </main>
   );

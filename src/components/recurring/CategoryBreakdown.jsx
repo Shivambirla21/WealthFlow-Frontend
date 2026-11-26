@@ -5,6 +5,8 @@ export default function CategoryBreakdown({ items, categories }) {
     .filter((item) => item.categoryIndex === index)
     .reduce((sum, item) => sum + (item.billing === 'Yearly' ? item.amount / 12 : item.amount), 0));
   const total = totals.reduce((sum, value) => sum + value, 0);
+  const subscriptions = items.filter((item) => item.categoryIndex === 0);
+  const largest = subscriptions.reduce((current, item) => item.amount > (current?.amount || 0) ? item : current, null);
 
   return (
     <section className="recurring-panel category-panel">
@@ -16,8 +18,8 @@ export default function CategoryBreakdown({ items, categories }) {
         {categories.map((category, index) => <span key={category.name}><i style={{ background: category.color }} />{category.name}<b>{money(totals[index])}</b></span>)}
       </div>
       <div className="recurring-insight">
-        <b>You have {items.filter((item) => item.categoryIndex === 0).length} recurring subscriptions.</b>
-        <small>They cost {money(totals[0])} a month, about {money(totals[0] * 12)} a year. Netflix is the largest at ₹649.</small>
+        <b>You have {subscriptions.length} recurring subscriptions.</b>
+        <small>They cost {money(totals[0])} a month, about {money(Math.round(totals[0]) * 12)} a year.{largest ? ' ' + largest.name + ' is the largest at ' + money(largest.amount) + '.' : ''}</small>
       </div>
       <style>{`
         .category-panel h3{margin-bottom:14px}
