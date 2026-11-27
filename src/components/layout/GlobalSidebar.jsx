@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const navItems = [
   { to: '/speedometer', label: 'Speedometer', icon: NavigationIcons.Speedometer },
+  { to: '/wealth-chart', label: 'Wealth Chart', icon: NavigationIcons.WealthChart },
   { to: '/dashboard', label: 'Overview', icon: NavigationIcons.Overview },
   { to: '/transactions', label: 'Transactions', icon: NavigationIcons.Transactions },
   { to: '/budgets', label: 'Budgets', icon: NavigationIcons.Budgets },
