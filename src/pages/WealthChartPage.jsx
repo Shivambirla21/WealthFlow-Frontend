@@ -155,10 +155,10 @@ export default function WealthChartPage() {
         .is-positive{color:var(--success)!important}.is-negative{color:var(--danger)!important}
         .wealth-chart-selectors{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
         .wealth-segmented-control{display:inline-flex;gap:2px;flex-wrap:wrap;background:var(--bg);padding:3px;border-radius:10px}
-        .wealth-segmented-control button{border:0;border-radius:8px;background:transparent;color:var(--text-muted);padding:6px 11px;font:600 12px inherit;cursor:pointer;white-space:nowrap}
+        .wealth-segmented-control button{border:0;border-radius:8px;background:transparent;color:var(--text-muted);padding:6px 11px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
         .wealth-segmented-control button.is-selected{background:var(--surface);color:var(--text);box-shadow:0 1px 3px #0005}
         .wealth-chart-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 8px}
-        .wealth-control-button{border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);padding:8px 12px;font:600 12px inherit;cursor:pointer;white-space:nowrap}
+        .wealth-control-button{border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);padding:8px 12px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
         .wealth-control-button:hover,.wealth-control-button.is-active{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-muted)}
         .wealth-hover-values{flex:1}
         .wealth-chart-wrap{position:relative;min-width:0}
