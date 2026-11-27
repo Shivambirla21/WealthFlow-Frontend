@@ -1,5 +1,3 @@
-import React from 'react';
-
 const polar = (angle, radius = 150) => ({
   x: 200 + radius * Math.sin((angle * Math.PI) / 180),
   y: 200 - radius * Math.cos((angle * Math.PI) / 180),
