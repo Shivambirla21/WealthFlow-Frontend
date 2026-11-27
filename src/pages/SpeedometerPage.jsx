@@ -57,7 +57,7 @@ export default function SpeedometerPage() {
       .speed-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;min-width:0}
       .speed-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.speed-heading h2{font-size:16px;margin:0}.muted{font-size:12px;color:var(--text-muted)}
       .speed-periods{display:flex;gap:2px;background:var(--bg);padding:3px;border-radius:10px;flex-wrap:wrap}
-      .speed-periods button{border:0;background:transparent;color:var(--text-muted);padding:6px 10px;border-radius:8px;font:600 12px inherit;cursor:pointer}
+      .speed-periods button{border:0;background:transparent;color:var(--text-muted);padding:6px 10px;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer}
       .speed-periods button.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px #0005}
       .speed-gauge{max-width:520px;margin:6px auto 0}.speed-gauge svg{width:100%;display:block;overflow:visible}
       .speed-needle{transform-origin:200px 200px;transition:transform .7s cubic-bezier(.3,1.4,.5,1)}.speed-gauge.calm .speed-needle{transition:none}
@@ -73,9 +73,9 @@ export default function SpeedometerPage() {
       .freedom-track{width:100%;height:8px;background:var(--bg);border-radius:8px;overflow:hidden;margin:10px 0 6px}.freedom-track i{display:block;width:16.9%;height:100%;background:var(--primary)}
       .speed-disclaimer{font-size:11px;color:var(--text-muted);line-height:1.6}
       .speed-live-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--border);border-radius:20px;background:var(--surface);font-size:11px;font-weight:700;white-space:nowrap}.speed-live-pill i{width:7px;height:7px;border-radius:50%;background:var(--success);animation:speed-blink 1.6s infinite}.speed-live-pill.paused i{background:var(--text-muted);animation:none}.speed-live-pill b{color:var(--success)}.speed-live-pill.paused b{color:var(--text-muted)}
-      @keyframes speed-blink{50%{opacity:.3}}.speed-action{padding:9px 11px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font:600 12px inherit;white-space:nowrap;cursor:pointer}.speed-action:hover,.speed-action.selected{border-color:var(--primary);background:var(--primary-soft)}
+      @keyframes speed-blink{50%{opacity:.3}}.speed-action{padding:9px 11px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-family:inherit;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}.speed-action:hover,.speed-action.selected{border-color:var(--primary);background:var(--primary-soft)}
       @media(max-width:1250px){.speedometer-page{padding:22px 24px 44px}.speed-hero{grid-template-columns:1fr}.speed-gauge{max-width:480px}}
-      @media(max-width:900px){.speed-metrics{grid-template-columns:1fr 1fr}}
+      @media(max-width:1024px){.speedometer-page .header-right{flex-wrap:wrap}}@media(max-width:900px){.speed-metrics{grid-template-columns:1fr 1fr}}
       @media(max-width:768px){.speedometer-page{padding:16px;gap:16px}.speed-metrics{grid-template-columns:1fr}.speed-card{padding:18px}.velocity-heading{align-items:flex-start;flex-direction:column}.speed-periods{width:100%;justify-content:space-between}.speed-periods button{padding:6px 7px}.source-row{grid-template-columns:32px minmax(0,1fr) auto;gap:8px}.source-amount{font-size:11px}.speed-live-pill{display:none}}
     \`}</style>
   </main>;
