@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
-import ReportsHeader from '../components/reports/ReportsHeader.jsx';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import ReportCard from '../components/reports/ReportCard.jsx';
 import RecentReports from '../components/reports/RecentReports.jsx';
 import ReportPreview from '../components/reports/ReportPreview.jsx';
@@ -64,15 +64,27 @@ export default function ReportsPage() {
 
   const openPreview = (index) => setPreviewIndex(index);
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
+  const handleNewReport = () => {
+    generate(0);
+  };
+
   return (
     <main className="reports-page">
       {previewIndex === null ? (
         <>
-          <ReportsHeader
-            period={period}
-            onPeriodChange={setPeriod}
-            onNewReport={() => generate(0)}
-            onThemeToggle={toggleTheme}
+          <GlobalHeader
+            title="Reports"
+            subtitle="Generate and export financial reports"
+            showSearch={false}
+            showAddButton={true}
+            addButtonText="New report"
+            onAddClick={handleNewReport}
+            onThemeToggle={handleThemeToggle}
           />
           <section className="reports-grid" aria-label="Available reports">
             {reports.map((report, index) => (

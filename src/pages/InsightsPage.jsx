@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import InsightsHeader from '../components/insights/InsightsHeader.jsx';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import FinancialHealth from '../components/insights/FinancialHealth.jsx';
 import InsightCard from '../components/insights/InsightCard.jsx';
 
@@ -68,9 +68,20 @@ export default function InsightsPage() {
     setToast('');
   };
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
   return (
     <main className="insights-page">
-      <InsightsHeader period={period} onPeriodChange={setPeriod} onThemeToggle={toggleTheme} />
+      <GlobalHeader
+        title="Insights"
+        subtitle="AI-powered analysis of your finances"
+        showSearch={false}
+        showAddButton={false}
+        onThemeToggle={handleThemeToggle}
+      />
       <section className="insights-overview">
         <FinancialHealth />
         <section className="insights-panel priorities-panel">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import BudgetsHeader from '../components/budgets/BudgetsHeader';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import BudgetSummary from '../components/budgets/BudgetSummary';
 import BudgetFilters from '../components/budgets/BudgetFilters';
 import BudgetCard from '../components/budgets/BudgetCard';
@@ -13,6 +13,11 @@ export default function BudgetsPage() {
   const { toggleTheme } = useAuth();
   const [filter, setFilter] = useState('all');
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
   const handleCreateBudget = () => {
     console.log('Create budget clicked');
   };
@@ -20,9 +25,14 @@ export default function BudgetsPage() {
   return (
     <>
       <main className="budgets-main">
-        <BudgetsHeader
-          onThemeToggle={toggleTheme}
-          onCreateBudget={handleCreateBudget}
+        <GlobalHeader
+          title="Budgets"
+          subtitle="Plan your spending and stay on track"
+          showSearch={false}
+          showAddButton={true}
+          addButtonText="Create budget"
+          onAddClick={handleCreateBudget}
+          onThemeToggle={handleThemeToggle}
         />
 
         <BudgetSummary />

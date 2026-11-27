@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import TransactionsHeader from '../components/transaction/TransactionsHeader';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import TransactionSummary from '../components/transaction/TransactionSummary';
 import TransactionFilters from '../components/transaction/TransactionFilters';
 import TransactionTable from '../components/transaction/TransactionTable';
@@ -18,12 +18,22 @@ export default function TransactionsPage() {
     setShowModal(false);
   };
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
   return (
     <>
       <main className="transactions-main">
-        <TransactionsHeader
-          onAddTransaction={handleAddTransaction}
-          onThemeToggle={toggleTheme}
+        <GlobalHeader
+          title="Transactions"
+          subtitle="Every rupee in and out, in one place"
+          showSearch={true}
+          showAddButton={true}
+          addButtonText="Add transaction"
+          onAddClick={handleAddTransaction}
+          onThemeToggle={handleThemeToggle}
         />
 
         <TransactionSummary />

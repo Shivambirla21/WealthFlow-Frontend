@@ -1,4 +1,4 @@
-import CashFlowHeader from '../components/cashflow/CashFlowHeader';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import CashFlowSummary from '../components/cashflow/CashFlowSummary';
 import IncomeVsExpenses from '../components/cashflow/IncomeVsExpenses';
 import CashFlowTrend from '../components/cashflow/CashFlowTrend';
@@ -9,6 +9,11 @@ import { useAuth } from '../context/AuthContext.jsx';
 export default function CashFlowPage() {
   const { toggleTheme } = useAuth();
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
   const handleAdd = () => {
     console.log('Add clicked');
   };
@@ -16,9 +21,14 @@ export default function CashFlowPage() {
   return (
     <>
       <main className="cashflow-main">
-        <CashFlowHeader
-          onThemeToggle={toggleTheme}
-          onAdd={handleAdd}
+        <GlobalHeader
+          title="Cash Flow"
+          subtitle="Money in, money out, and what's left"
+          showSearch={false}
+          showAddButton={true}
+          addButtonText="Add"
+          onAddClick={handleAdd}
+          onThemeToggle={handleThemeToggle}
         />
 
         <CashFlowSummary />

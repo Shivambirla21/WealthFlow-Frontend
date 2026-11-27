@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import GoalsHeader from '../components/goals/GoalsHeader';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import GoalsSummary from '../components/goals/GoalsSummary';
 import GoalsGrid from '../components/goals/GoalsGrid';
 import GoalsDetail from '../components/goals/GoalsDetail';
@@ -20,6 +20,11 @@ export default function GoalsPage() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
   const handleCreateGoal = () => {
     console.log('Create goal clicked');
   };
@@ -37,26 +42,29 @@ export default function GoalsPage() {
   };
 
   return (
-    <>
-      <main className="goals-main">
-        <GoalsHeader
-          onThemeToggle={toggleTheme}
-          onCreateGoal={handleCreateGoal}
-        />
+    <div className="goals-page">
+      <GlobalHeader
+        title="Goals"
+        subtitle="Track what you're saving for"
+        showSearch={false}
+        showAddButton={true}
+        addButtonText="Create goal"
+        onAddClick={handleCreateGoal}
+        onThemeToggle={handleThemeToggle}
+      />
 
-        <GoalsSummary />
+      <GoalsSummary />
 
-        <GoalsGrid onSelectGoal={handleSelectGoal} />
+      <GoalsGrid onSelectGoal={handleSelectGoal} />
 
-        <GoalsDetail goal={selectedGoal} onContribute={handleContribute} />
-      </main>
+      <GoalsDetail goal={selectedGoal} onContribute={handleContribute} />
 
       {showToast && (
         <div className="toast show">✓ ₹{(selectedGoal?.monthly || 0).toLocaleString()} added to {selectedGoal?.name}</div>
       )}
 
       <style>{`
-        .goals-main {
+        .goals-page {
           flex: 1;
           min-width: 0;
           padding: 28px 40px 56px;
@@ -87,17 +95,17 @@ export default function GoalsPage() {
         }
 
         @media (max-width: 1400px) {
-          .goals-main {
+          .goals-page {
             padding: 20px 24px;
           }
         }
 
         @media (max-width: 768px) {
-          .goals-main {
+          .goals-page {
             padding: 16px;
           }
         }
       `}</style>
-    </>
+    </div>
   );
 }

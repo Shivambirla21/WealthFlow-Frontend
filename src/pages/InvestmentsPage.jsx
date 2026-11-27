@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import InvestmentsHeader from '../components/investments/InvestmentsHeader.jsx';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import InvestmentsSummary from '../components/investments/InvestmentsSummary.jsx';
 import PortfolioPerformance from '../components/investments/PortfolioPerformance.jsx';
 import InvestmentReturns from '../components/investments/InvestmentReturns.jsx';
@@ -20,7 +20,14 @@ export default function InvestmentsPage() {
 
   return (
     <div className="investments-page">
-      <InvestmentsHeader onThemeToggle={handleThemeToggle} />
+      <GlobalHeader
+        title="Investments"
+        subtitle="How are your investments performing?"
+        showSearch={true}
+        showAddButton={true}
+        addButtonText="Add investment"
+        onThemeToggle={handleThemeToggle}
+      />
       <InvestmentsSummary />
       <div className="two-column">
         <PortfolioPerformance />

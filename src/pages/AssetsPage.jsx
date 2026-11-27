@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AssetsHeader from '../components/assets/AssetsHeader.jsx';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import AssetsSummary from '../components/assets/AssetsSummary.jsx';
 import AssetAllocation from '../components/assets/AssetAllocation.jsx';
 import AssetsList from '../components/assets/AssetsList.jsx';
@@ -92,7 +92,15 @@ export default function AssetsPage() {
 
   return (
     <div className="assets-page">
-      <AssetsHeader onThemeToggle={handleThemeToggle} onAddAsset={handleAddAsset} />
+      <GlobalHeader
+        title="Assets"
+        subtitle="Everything you own, in one place"
+        showSearch={false}
+        showAddButton={true}
+        addButtonText="Add asset"
+        onAddClick={handleAddAsset}
+        onThemeToggle={handleThemeToggle}
+      />
       <AssetsSummary assets={assets} />
       <AssetAllocation assets={assets} categories={categories} />
       <AssetsList

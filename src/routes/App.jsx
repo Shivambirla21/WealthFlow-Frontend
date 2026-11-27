@@ -14,6 +14,7 @@ import LiabilitiesPage from '../pages/LiabilitiesPage.jsx';
 import RecurringPage from '../pages/RecurringPage.jsx';
 import ReportsPage from '../pages/ReportsPage.jsx';
 import InsightsPage from '../pages/InsightsPage.jsx';
+import SettingsPage from '../pages/SettingsPage.jsx';
 import SectionPage from '../pages/SectionPage.jsx';
 import GlobalSidebar from '../components/layout/GlobalSidebar.jsx';
 
@@ -79,7 +80,7 @@ export default function App() {
               <Route path="/reports" element={<ReportsPage />} />
               <Route path="/insights" element={<InsightsPage />} />
               <Route path="/help" element={<SectionPage title="Help" />} />
-              <Route path="/settings" element={<SectionPage title="Settings" />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Route>
           </Route>
 

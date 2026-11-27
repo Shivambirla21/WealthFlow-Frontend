@@ -1,4 +1,4 @@
-import NetWorthHeader from '../components/networth/NetWorthHeader';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import NetWorthHero from '../components/networth/NetWorthHero';
 import NetWorthChart from '../components/networth/NetWorthChart';
 import AssetsList from '../components/networth/AssetsList';
@@ -9,6 +9,11 @@ import { useAuth } from '../context/AuthContext.jsx';
 export default function NetWorthPage() {
   const { toggleTheme } = useAuth();
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
   const handleAddAsset = () => {
     console.log('Add asset clicked');
   };
@@ -16,9 +21,14 @@ export default function NetWorthPage() {
   return (
     <>
       <main className="networth-main">
-        <NetWorthHeader
-          onThemeToggle={toggleTheme}
-          onAddAsset={handleAddAsset}
+        <GlobalHeader
+          title="Net Worth"
+          subtitle="Your total wealth at a glance"
+          showSearch={false}
+          showAddButton={true}
+          addButtonText="Add asset"
+          onAddClick={handleAddAsset}
+          onThemeToggle={handleThemeToggle}
         />
 
         <NetWorthHero />

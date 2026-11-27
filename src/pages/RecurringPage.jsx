@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
-import RecurringHeader from '../components/recurring/RecurringHeader.jsx';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import RecurringSummary from '../components/recurring/RecurringSummary.jsx';
 import PaymentCalendar from '../components/recurring/PaymentCalendar.jsx';
 import UpcomingPayments from '../components/recurring/UpcomingPayments.jsx';
@@ -95,9 +95,26 @@ export default function RecurringPage() {
     showToast(item.name + ' added');
   };
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
+  const handleAdd = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <main className="recurring-page">
-      <RecurringHeader onAdd={() => setIsModalOpen(true)} onThemeToggle={toggleTheme} />
+      <GlobalHeader
+        title="Recurring"
+        subtitle="Track your subscriptions and recurring payments"
+        showSearch={false}
+        showAddButton={true}
+        addButtonText="Add recurring"
+        onAddClick={handleAdd}
+        onThemeToggle={handleThemeToggle}
+      />
       <RecurringSummary items={items} categories={categories} />
       <PaymentCalendar items={items} />
       <div className="recurring-overview">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import LiabilitiesHeader from '../components/liabilities/LiabilitiesHeader.jsx';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import LiabilitiesSummary from '../components/liabilities/LiabilitiesSummary.jsx';
 import DebtComposition from '../components/liabilities/DebtComposition.jsx';
 import LiabilitiesList from '../components/liabilities/LiabilitiesList.jsx';
@@ -79,7 +79,15 @@ export default function LiabilitiesPage() {
 
   return (
     <div className="liabilities-page">
-      <LiabilitiesHeader onThemeToggle={handleThemeToggle} onAddLiability={handleAddLiability} />
+      <GlobalHeader
+        title="Liabilities"
+        subtitle="Everything you owe, and your path to zero"
+        showSearch={false}
+        showAddButton={true}
+        addButtonText="Add liability"
+        onAddClick={handleAddLiability}
+        onThemeToggle={handleThemeToggle}
+      />
       <LiabilitiesSummary liabilities={liabilities} />
       <DebtComposition liabilities={liabilities} categories={categories} />
       <LiabilitiesList

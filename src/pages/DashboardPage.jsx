@@ -1,4 +1,4 @@
-import DashboardHeader from '../components/dashboard/DashboardHeader';
+import GlobalHeader from '../components/layout/GlobalHeader.jsx';
 import StatCards from '../components/dashboard/StatCards';
 import NetWorthChart from '../components/dashboard/NetWorthChart';
 import CashFlowChart from '../components/dashboard/CashFlowChart';
@@ -11,12 +11,23 @@ import GoalsProgress from '../components/dashboard/GoalsProgress';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function DashboardPage({ currency = '₹' }) {
-  const { userName, toggleTheme, signOut } = useAuth();
+  const { userName, toggleTheme } = useAuth();
+
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
 
   return (
     <>
       <main className="dashboard-main">
-        <DashboardHeader userName={userName.split(' ')[0]} onThemeToggle={toggleTheme} onSignOut={signOut} />
+        <GlobalHeader
+          title={`Good morning, ${userName.split(' ')[0]}`}
+          showSearch={true}
+          showAddButton={true}
+          addButtonText="Add"
+          onThemeToggle={handleThemeToggle}
+        />
 
         <StatCards currency={currency} />
 
