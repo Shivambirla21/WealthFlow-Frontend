@@ -11,7 +11,7 @@ export default function WealthChart({
   showEvents,
 }) {
   const [activeIndex, setActiveIndex] = useState(null);
-  const { min, max, x, y, candleWidth, averagePath, linePath, areaPath } = useMemo(() => {
+  const { min, x, y, candleWidth, averagePath, linePath, areaPath } = useMemo(() => {
     const high = Math.max(...candles.map((item) => item.high));
     const low = Math.min(...candles.map((item) => item.low));
     const padding = (high - low) * 0.08 || 1;
@@ -21,10 +21,12 @@ export default function WealthChart({
     const xPoint = (index) => CHART.left + (index + 0.5) * plotWidth / candles.length;
     const yPoint = (value) => CHART.top + (CHART.plotHeight - CHART.top) * (upper - value) / (upper - lower);
     const path = candles.map((item, index) => `${index ? 'L' : 'M'} ${xPoint(index)} ${yPoint(item.close)}`).join(' ');
-    const avg = candles.map((_, index) => {
-      const value = getMovingAverage(candles, index);
-      return value === null ? '' : `${index ? 'L' : 'M'} ${xPoint(index)} ${yPoint(value)}`;
-    }).filter(Boolean).join(' ');
+    const averagePoints = candles.map((_, index) => getMovingAverage(candles, index))
+      .map((value, index) => value === null ? null : [xPoint(index), yPoint(value)])
+      .filter(Boolean);
+    const avg = averagePoints.map(([pointX, pointY], index) =>
+      `${index ? 'L' : 'M'} ${pointX} ${pointY}`,
+    ).join(' ');
 
     return {
       min: lower,
@@ -48,8 +50,6 @@ export default function WealthChart({
 
   const active = activeIndex === null ? null : candles[activeIndex];
   const activeChange = active ? ((active.close - active.open) / active.open) * 100 : 0;
-  const highest = Math.max(...candles.map((item) => item.high));
-  const lowest = Math.min(...candles.map((item) => item.low));
   const maxVolume = Math.max(...candles.map((item) => item.volume));
   const last = candles[candles.length - 1];
   const labels = Array.from({ length: 6 }, (_, index) => Math.round(index * (candles.length - 1) / 5));
