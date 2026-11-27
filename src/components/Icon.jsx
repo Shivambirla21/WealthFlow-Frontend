@@ -17,6 +17,7 @@ export const Icon = ({ name, size = 20, className = '', ...props }) => {
 
 // Pre-configured icon sets for common use cases
 export const NavigationIcons = {
+  Speedometer: LucideIcons.Gauge,
   Overview: LucideIcons.LayoutDashboard,
   Transactions: LucideIcons.ArrowLeftRight,
   Budgets: LucideIcons.PiggyBank,

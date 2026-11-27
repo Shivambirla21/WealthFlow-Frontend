@@ -7,6 +7,7 @@ import { NavigationIcons, UserIcons, ActionIcons } from '../Icon.jsx';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const navItems = [
+  { to: '/speedometer', label: 'Speedometer', icon: NavigationIcons.Speedometer },
   { to: '/dashboard', label: 'Overview', icon: NavigationIcons.Overview },
   { to: '/transactions', label: 'Transactions', icon: NavigationIcons.Transactions },
   { to: '/budgets', label: 'Budgets', icon: NavigationIcons.Budgets },
