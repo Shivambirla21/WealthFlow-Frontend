@@ -27,7 +27,16 @@ export default function WealthChartPage() {
   const [paused, setPaused] = useState(false);
   const [refresh, setRefresh] = useState(0);
 
-  const candles = useMemo(() => createWealthSeries(timeframe, series), [timeframe, series, refresh]);
+  const baseCandles = useMemo(() => createWealthSeries(timeframe, series), [timeframe, series]);
+  const candles = useMemo(() => {
+    const nextCandles = baseCandles.map((candle) => ({ ...candle }));
+    const latest = nextCandles[nextCandles.length - 1];
+    const baseClose = latest.close;
+    latest.close = baseClose * (1 + refresh * 0.000005);
+    latest.high = Math.max(latest.high, latest.close);
+    latest.low = Math.min(latest.low, latest.close);
+    return nextCandles;
+  }, [baseCandles, refresh]);
   const current = candles[candles.length - 1];
   const first = candles[0];
   const rangeChange = ((current.close - first.open) / first.open) * 100;
