@@ -4,6 +4,7 @@ import LandingPage from '../pages/LandingPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import DashboardPage from '../pages/DashboardPage.jsx';
 import SpeedometerPage from '../pages/SpeedometerPage.jsx';
+import WealthChartPage from '../pages/WealthChartPage.jsx';
 import TransactionsPage from '../pages/TransactionsPage.jsx';
 import BudgetsPage from '../pages/BudgetsPage.jsx';
 import CashFlowPage from '../pages/CashFlowPage.jsx';
@@ -70,6 +71,7 @@ export default function App() {
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/speedometer" element={<SpeedometerPage />} />
+              <Route path="/wealth-chart" element={<WealthChartPage />} />
               <Route path="/transactions" element={<TransactionsPage />} />
               <Route path="/budgets" element={<BudgetsPage />} />
               <Route path="/cash-flow" element={<CashFlowPage />} />
