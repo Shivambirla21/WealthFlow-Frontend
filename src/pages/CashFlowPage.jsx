@@ -1,9 +1,9 @@
 import GlobalHeader from '../components/layout/GlobalHeader.jsx';
-import CashFlowSummary from '../components/cashflow/CashFlowSummary';
-import IncomeVsExpenses from '../components/cashflow/IncomeVsExpenses';
-import CashFlowTrend from '../components/cashflow/CashFlowTrend';
-import CashFlowByCategory from '../components/cashflow/CashFlowByCategory';
-import MonthlyComparison from '../components/cashflow/MonthlyComparison';
+import CashFlowSummary from '../components/cash-flow/CashFlowSummary';
+import IncomeVsExpenses from '../components/cash-flow/IncomeVsExpenses';
+import CashFlowTrend from '../components/cash-flow/CashFlowTrend';
+import CashFlowByCategory from '../components/cash-flow/CashFlowByCategory';
+import MonthlyComparison from '../components/cash-flow/MonthlyComparison';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function CashFlowPage() {
