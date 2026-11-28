@@ -1,9 +1,9 @@
 import GlobalHeader from '../components/layout/GlobalHeader.jsx';
-import NetWorthHero from '../components/networth/NetWorthHero';
-import NetWorthChart from '../components/networth/NetWorthChart';
-import AssetsList from '../components/networth/AssetsList';
-import LiabilitiesList from '../components/networth/LiabilitiesList';
-import AssetsVsLiabilities from '../components/networth/AssetsVsLiabilities';
+import NetWorthHero from '../components/net-worth/NetWorthHero';
+import NetWorthChart from '../components/net-worth/NetWorthChart';
+import AssetsList from '../components/net-worth/AssetsList';
+import LiabilitiesList from '../components/net-worth/LiabilitiesList';
+import AssetsVsLiabilities from '../components/net-worth/AssetsVsLiabilities';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function NetWorthPage() {
