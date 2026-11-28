@@ -58,12 +58,6 @@ export default function DashboardPage({ currency = '₹' }) {
           box-shadow: none;
         }
 
-        .dashboard-container {
-          display: flex;
-          width: 100%;
-          min-width: 1100px;
-        }
-
         .dashboard-main {
           flex: 1;
           min-width: 0;
@@ -79,10 +73,6 @@ export default function DashboardPage({ currency = '₹' }) {
         }
 
         @media (max-width: 1400px) {
-          .dashboard-container {
-            min-width: 100%;
-          }
-
           .dashboard-main {
             padding: 20px 24px;
           }
@@ -103,10 +93,6 @@ export default function DashboardPage({ currency = '₹' }) {
         }
 
         @media (max-width: 768px) {
-          .dashboard-container {
-            flex-direction: column;
-          }
-
           .dashboard-main {
             padding: 16px;
           }
