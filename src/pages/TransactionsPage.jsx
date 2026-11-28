@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import GlobalHeader from '../components/layout/GlobalHeader.jsx';
-import TransactionSummary from '../components/transaction/TransactionSummary';
-import TransactionFilters from '../components/transaction/TransactionFilters';
-import TransactionTable from '../components/transaction/TransactionTable';
-import TransactionModal from '../components/transaction/TransactionModal';
+import TransactionSummary from '../components/transactions/TransactionSummary';
+import TransactionFilters from '../components/transactions/TransactionFilters';
+import TransactionTable from '../components/transactions/TransactionTable';
+import TransactionModal from '../components/transactions/TransactionModal';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function TransactionsPage() {
