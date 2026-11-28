@@ -200,11 +200,6 @@ export default function GlobalHeader({
             flex: 1 1 100%;
           }
 
-          .header-center {
-            flex: 1 1 100%;
-            order: 3;
-          }
-
           .search-bar {
             width: 100%;
             max-width: none;
