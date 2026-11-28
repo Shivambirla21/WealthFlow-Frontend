@@ -11,6 +11,11 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    resolve: {
+      alias: {
+        '@': path.resolve(rootDir, 'src'),
+      },
+    },
     define: {
       'import.meta.env.VITE_BACKEND_URL': JSON.stringify(backendOrigin),
     },
