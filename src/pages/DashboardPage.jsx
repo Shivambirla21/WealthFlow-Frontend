@@ -23,9 +23,10 @@ export default function DashboardPage({ currency = '₹' }) {
       <main className="dashboard-main">
         <GlobalHeader
           title={`Good morning, ${userName.split(' ')[0]}`}
+          subtitle="Here's your financial overview for today"
           showSearch={true}
           showAddButton={true}
-          addButtonText="Add"
+          addButtonText="Add transaction"
           onThemeToggle={handleThemeToggle}
         />
 

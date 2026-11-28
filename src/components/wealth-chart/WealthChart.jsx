@@ -11,7 +11,7 @@ export default function WealthChart({
   showEvents,
 }) {
   const [activeIndex, setActiveIndex] = useState(null);
-  const { min, x, y, candleWidth, averagePath, linePath, areaPath } = useMemo(() => {
+  const { min, max, x, y, candleWidth, averagePath, linePath, areaPath } = useMemo(() => {
     const high = Math.max(...candles.map((item) => item.high));
     const low = Math.min(...candles.map((item) => item.low));
     const padding = (high - low) * 0.08 || 1;

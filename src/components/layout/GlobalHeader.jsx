@@ -51,7 +51,7 @@ export default function GlobalHeader({
           </div>
         )}
         {additionalActions}
-        <button type="button" className="theme-btn" onClick={onThemeToggle}>
+        <button type="button" className="theme-btn" onClick={onThemeToggle || (() => {})}>
           ◐ Theme
         </button>
         {showAddButton && (

@@ -31,6 +31,11 @@ export default function SpeedometerPage() {
   const [netWorth, setNetWorth] = useState(84620);
   const [sinceMidnight, setSinceMidnight] = useState(0);
 
+  const handleThemeToggle = () => {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+
   const selectedPeriod = periods[period];
   const velocity = monthlyVelocity * selectedPeriod[2];
   const minuteVelocity = monthlyVelocity * periods.min[2];
@@ -59,7 +64,7 @@ export default function SpeedometerPage() {
         subtitle="How fast your wealth is moving, right now."
         showSearch={false}
         showAddButton={false}
-        onThemeToggle={toggleTheme}
+        onThemeToggle={handleThemeToggle}
         additionalActions={
           <>
             <span className={`speed-live-pill${paused ? ' paused' : ''}`}>
